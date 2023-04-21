@@ -22,12 +22,7 @@
         }
 
         main {
-            margin-top: 50px;
-        }
-
-        .navbar-brand {
-            font-family: 'Shadows Into Light Two', cursive;
-            font-weight: bolder;
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -38,7 +33,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand text-info" href="#">YCL</a>
-                <button class="btn btn-outline-success ms-auto" type="button" href="mailto:dev.dkq@gmail.com">문의하기</button>
+                <button class="btn btn-outline-success ms-auto" type="button" onclick="location.href='mailto:help@yclunch.info'">문의하기</button>
             </div>
         </nav>
     </header>
@@ -74,7 +69,7 @@
         </script>
     <script>
         const d = new Date();
-        const APIKEY = "9e74b25e6e074c3bbeb16eaf1e20be1b";
+        
         const lunchContainer = document.getElementById("lunch");
         const date = document.getElementById("date");
         const today = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
@@ -82,6 +77,8 @@
 
         (async () => {
             try {
+                APIKEY = "9e74b25e6e074c3bbeb16eaf1e20be1b";
+
                 const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&pIndex=1&pSize=100&ATPT_OFCDC_SC_CODE=B10&SD_SCHUL_CODE=${schoolCode}&MLSV_YMD=${today}&KEY=${APIKEY}`;
                 const response = await fetch(url);
                 const data = await response.json();
