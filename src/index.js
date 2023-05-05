@@ -5,8 +5,14 @@ dotenv.config();
 const port = 3000;
 const APIKEY = process.env.APIKEY;
 
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
+});
+
+
+app.get('/lunch', (req, res) => {
+
 });
 
 
