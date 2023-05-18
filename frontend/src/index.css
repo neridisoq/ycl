@@ -1,0 +1,89 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107/Pretendard-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nanumsquare';
+    src: url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+* {
+    text-decoration: none;
+    box-sizing: border-box;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Pretendard-Bold', sans-serif;
+}
+
+
+:root {
+    --primary-color: hsl(196, 78%, 61%);
+    --secondary-color: hsl(217, 15%, 83%);
+    --success-color: hsl(165, 58%, 55%);
+    --info-color: hsl(214, 79%, 65%);
+    --warning-color: hsl(43, 100%, 66%);
+    --danger-color: hsl(354, 81%, 63%);
+    --primary-color-darker: hsl(196, 68%, 54%);
+    --secondary-color-darker: hsl(215, 13%, 70%);
+    --success-color-darker: hsl(165, 55%, 48%);
+    --info-color-darker: hsl(214, 68%, 58%);
+    --warning-color-darker: hsl(39, 97%, 62%);
+    --danger-color-darker: hsl(354, 67%, 56%);
+    --primary-color-lighter: hsl(196, 78%, 81%);
+    --secondary-color-lighter: hsl(214, 16%, 92%);
+    --success-color-lighter: hsl(165, 58%, 75%);
+    --info-color-lighter: hsl(214, 79%, 85%);
+    --warning-color-lighter: hsl(43, 100%, 86%);
+    --danger-color-lighter: hsl(354, 81%, 83%);
+    --secondary-color-darkest: hsl(215, 11%, 30%);
+    --secondary-color-lightest: hsl(220, 1%, 98%);
+}
