@@ -1,3 +1,19 @@
+@font-face {
+    font-family: "ONE-Mobile-Title";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Title.woff")
+        format("woff");
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SBAggroB";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff")
+        format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
     --primary-color: hsl(196, 78%, 61%);
     --secondary-color: hsl(217, 15%, 83%);
@@ -30,9 +46,15 @@
     max-width: 480px;
     width: 100%;
     background-color: var(--secondary-color-lightest);
-    font-family: 'pretendard', sans-serif;
+    font-family: "pretendard", sans-serif;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
+.App::-webkit-scrollbar {
+    display: none;
+}
 
 .App-header {
     flex: 1;
@@ -49,10 +71,17 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.App-body::-webkit-scrollbar {
+    display: none;
 }
 
 .App-footer {
-    flex:1;
+    flex: 1;
     background-color: var(--primary-color);
     width: 100%;
     color: white;
@@ -61,6 +90,7 @@
 .meal {
     width: 100%;
     padding: 0 20px;
+    flex-direction: column;
 }
 
 .meal-title {
@@ -74,11 +104,11 @@
     align-items: center;
 }
 
-.meal-title-date>p {
+.meal-title-date > p {
     margin: 0 15px;
 }
 
-.meal-title-date>button {
+.meal-title-date > button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,7 +120,7 @@
     color: var(--primary-color-lighter);
 }
 
-.meal-title-date>button:active {
+.meal-title-date > button:active {
     color: var(--primary-color);
 }
 
@@ -102,7 +132,7 @@
     width: 100%;
 }
 
-.meal-content>div {
+.meal-content > div {
     display: flex;
     flex-direction: column;
     margin: 0 15px;
@@ -143,3 +173,39 @@
     font-size: 15px;
 }
 
+button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: inherit;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 5px 10px;
+}
+
+h1 {
+    font-family: "ONE-Mobile-Title";
+    font-size: 2rem;
+}
+
+h2 {
+    font-family: "ONE-Mobile-Title";
+    font-size: 1.5rem;
+}
+
+.meal-type-button {
+    outline: none;
+    padding: 6px 12px;
+    margin: 0px 3px;
+    background-color: var(--secondary-color-lighter);
+    border-radius: 20px;
+    color: var(--secondary-color-darkest);
+    border: none;
+}
+
+.active {
+    background-color: var(--primary-color);
+    color: white;
+}
