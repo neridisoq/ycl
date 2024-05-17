@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const axios = require("axios");
+const path = require("path");
 const app = express();
 dotenv.config();
 const port = 5000;
@@ -14,6 +15,7 @@ if (!APIKEY) {
 } else {
     console.log("[YCL] API KEY is loaded");
 }
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
