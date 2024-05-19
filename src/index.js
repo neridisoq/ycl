@@ -15,10 +15,10 @@ if (!APIKEY) {
 } else {
     console.log("[YCL] API KEY is loaded");
 }
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "build")));
 
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/public/index.html");
+    res.sendFile(__dirname + "/build/index.html");
 });
 
 app.get("/meal", async (req, res) => {
@@ -51,29 +51,39 @@ app.get("/meal", async (req, res) => {
                 return;
             }
         }
-        const lunch_DDISH_NM = mealServiceDietInfo[1].row[0].DDISH_NM;
-        const dinner_DDISH_NM = mealServiceDietInfo[1].row[1].DDISH_NM;
-        const lunch_CAL_INFO = mealServiceDietInfo[1].row[0].CAL_INFO;
-        const dinner_CAL_INFO = mealServiceDietInfo[1].row[1].CAL_INFO;
+        const lunch_DDISH_NM = mealServiceDietInfo[1]?.row[0]?.DDISH_NM;
+        const dinner_DDISH_NM = mealServiceDietInfo[1]?.row[1]?.DDISH_NM;
+        let lunch_CAL_INFO = mealServiceDietInfo[1]?.row[0]?.CAL_INFO;
+        let dinner_CAL_INFO = mealServiceDietInfo[1]?.row[1]?.CAL_INFO;
 
         const regex =
             /\([^()]+\)|\/자율|\(완\)|\(선\)|\(교\)|\(주\)|\(해당없음\)|\(양천\)/g;
 
         const lunchMealDataString = lunch_DDISH_NM
-            .replace(/\([^()]+\)|/, "")
-            .replace(regex, "");
+            ?.replace(/\([^()]+\)|/, "")
+            ?.replace(regex, "");
 
-        const lunchMealData = lunchMealDataString
-            .split("<br/>")
-            .map((element) => element.trim());
+        let lunchMealData = lunchMealDataString
+            ?.split("<br/>")
+            ?.map((element) => element.trim());
 
         const dinnerMealDataString = dinner_DDISH_NM
-            .replace(/\([^()]+\)|/, "")
-            .replace(regex, "");
+            ?.replace(/\([^()]+\)|/, "")
+            ?.replace(regex, "");
 
-        const dinnerMealData = dinnerMealDataString
-            .split("<br/>")
-            .map((element) => element.trim());
+        let dinnerMealData = dinnerMealDataString
+            ?.split("<br/>")
+            ?.map((element) => element.trim());
+
+        if (!lunchMealData) {
+            lunchMealData = ["오늘은 점심이 없습니다."];
+            dinner_CAL_INFO = "오늘은 점심이 없습니다.";
+        }
+
+        if (!dinnerMealData) {
+            dinnerMealData = ["오늘은 석식이 없습니다."];
+            dinner_CAL_INFO = "오늘은 석식이 없습니다.";
+        }
 
         res.send({
             meal: [lunchMealData, dinnerMealData],

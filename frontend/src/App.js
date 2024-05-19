@@ -34,8 +34,6 @@ function Body() {
         getMeal(today);
     }, []);
 
-    console.log(meal && today === getDates().today);
-
     return (
         <div className="App-body">
             <div className="meal">
