@@ -59,6 +59,8 @@ app.get("/meal", async (req, res) => {
         const regex =
             /\([^()]+\)|\/자율|\(완\)|\(선\)|\(교\)|\(주\)|\(해당없음\)|\(양천\)/g;
 
+        // TODO: later, we need to remove ?. and replace with something beutiful
+
         const lunchMealDataString = lunch_DDISH_NM
             ?.replace(/\([^()]+\)|/, "")
             ?.replace(regex, "");
