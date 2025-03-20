@@ -732,3 +732,8 @@ body {
 .app.dark-theme .ios-segmented-control {
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
+
+html,
+body {
+    overscroll-behavior: none;
+}
