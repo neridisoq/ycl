@@ -36,4 +36,11 @@ Yangcheon Highschool Lunch
     mv build ../src
     ```
 
-5. Open your web browser and visit `http://localhost:5000` to access the application.
+5. Run index.js
+
+    ```bash
+    cd ..
+    node src/index.js
+    ```
+
+6. Open your web browser and visit `http://localhost:5000` to access the application.
