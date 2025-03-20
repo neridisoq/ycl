@@ -1,134 +1,212 @@
-import logo from "./logo.png";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import React from "react";
-import { useState, useEffect } from "react";
 
 function App() {
-    return (
-        <div className="App">
-            <Header />
-            <Body />
-            <Footer />
-        </div>
-    );
-}
+    const [darkMode, setDarkMode] = useState(false);
+    const [today, setToday] = useState("");
+    const [meal, setMeal] = useState("");
+    const [cal, setCal] = useState("");
+    const [mealType, setMealType] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isCurrentDay, setIsCurrentDay] = useState(true);
 
-function Body() {
-    let [today, setToday] = useState("");
-    let [meal, setMeal] = useState("");
-    let [cal, setCal] = useState("");
-    let [mealType, setMealType] = useState(0);
+    // Check system preference for dark mode and update when it changes
+    useEffect(() => {
+        // Set initial value based on system preference
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+        setDarkMode(prefersDark.matches);
 
-    function getMeal(today) {
-        fetch(`/meal?today=${today}`)
+        // Add listener for system theme changes
+        const mediaQueryListener = (e) => {
+            setDarkMode(e.matches);
+        };
+
+        prefersDark.addEventListener("change", mediaQueryListener);
+
+        // Clean up listener on component unmount
+        return () => {
+            prefersDark.removeEventListener("change", mediaQueryListener);
+        };
+    }, []);
+
+    function toggleTheme() {
+        setDarkMode(!darkMode);
+    }
+
+    function getMeal(date) {
+        setIsLoading(true);
+        fetch(`/meal?today=${date}`)
             .then((res) => res.json())
             .then(({ meal, cal }) => {
                 setMeal(meal);
                 setCal(cal);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.error("Error fetching meal data:", err);
+                setIsLoading(false);
             });
     }
 
-    useEffect(() => {
+    function goToDate(date) {
+        setToday(date);
+        getMeal(date);
+
+        // Check if the selected date is today
+        const currentDate = getDates().today;
+        setIsCurrentDay(date === currentDate);
+    }
+
+    function goToToday() {
         const { today } = getDates();
-        setToday(today);
-        getMeal(today);
+        goToDate(today);
+        setIsCurrentDay(true);
+    }
+
+    useEffect(() => {
+        goToToday();
     }, []);
 
+    const formatDate = (dateString) => {
+        return {
+            year: dateString.slice(0, 4),
+            month: dateString.slice(4, 6),
+            day: dateString.slice(6),
+        };
+    };
+
     return (
-        <div className="App-body">
-            <div className="meal">
-                <div className="meal-title">
-                    <div className="meal-title-date">
+        <div className={`app ${darkMode ? "dark-theme" : "light-theme"}`}>
+            <div className="app-container">
+                <div className="header-actions">
+                    <button className="theme-toggle" onClick={toggleTheme}>
+                        {darkMode ? (
+                            <i className="bi bi-moon-fill"></i>
+                        ) : (
+                            <i className="bi bi-sun-fill"></i>
+                        )}
+                    </button>
+                </div>
+
+                <div className="date-navigator">
+                    <div className="current-date">
+                        {today && (
+                            <>
+                                <span className="date-year">
+                                    {formatDate(today).year}
+                                </span>
+                                <span className="date-monthday">
+                                    {formatDate(today).month}월{" "}
+                                    {formatDate(today).day}일
+                                </span>
+                                <span className="date-weekday">
+                                    ({getDayOfWeek(today)})
+                                </span>
+                            </>
+                        )}
+                    </div>
+
+                    <div className="date-actions">
                         <button
+                            className="icon-button"
                             onClick={() => {
                                 const { yesterday } = getDates(today);
-                                setToday(yesterday);
-                                getMeal(yesterday);
+                                goToDate(yesterday);
                             }}
+                            aria-label="Previous day"
                         >
-                            <i className="bi bi-caret-left-fill"></i>
+                            <i className="bi bi-chevron-left"></i>
                         </button>
-                        <p>
-                            {today.slice(0, 4)}년 {today.slice(4, 6)}월{" "}
-                            {today.slice(6)}일 ({getDayOfWeek(today)})
-                        </p>
+
                         <button
+                            className={`today-button ${
+                                isCurrentDay ? "inactive" : "active"
+                            }`}
+                            onClick={goToToday}
+                            disabled={isCurrentDay}
+                            aria-label="Go to today"
+                        >
+                            오늘
+                        </button>
+
+                        <button
+                            className="icon-button"
                             onClick={() => {
                                 const { tomorrow } = getDates(today);
-                                setToday(tomorrow);
-                                getMeal(tomorrow);
+                                goToDate(tomorrow);
                             }}
+                            aria-label="Next day"
                         >
-                            <i className="bi bi-caret-right-fill"></i>
+                            <i className="bi bi-chevron-right"></i>
                         </button>
                     </div>
                 </div>
+
                 <div className="meal-type-selector">
-                    <button
-                        className="meal-type-button active"
-                        onClick={(e) => {
-                            setMealType(0);
-                            e.target.classList.add("active");
-                            e.target.nextSibling.classList.remove("active");
-                        }}
-                    >
-                        중식
-                    </button>
-                    <button
-                        className="meal-type-button"
-                        onClick={(e) => {
-                            setMealType(1);
-                            e.target.classList.add("active");
-                            e.target.previousSibling.classList.remove("active");
-                        }}
-                    >
-                        석식
-                    </button>
+                    <div className="ios-segmented-control">
+                        <div
+                            className={`segment ${
+                                mealType === 0 ? "active" : ""
+                            }`}
+                            onClick={() => setMealType(0)}
+                        >
+                            점심
+                        </div>
+                        <div
+                            className={`segment ${
+                                mealType === 1 ? "active" : ""
+                            }`}
+                            onClick={() => setMealType(1)}
+                        >
+                            저녁
+                        </div>
+                    </div>
                 </div>
-                <div className="meal-content">
-                    <div className="meal-content-meal">
-                        <h2>급식</h2>
-                        {meal ? (
-                            meal[mealType].map((element, index) => {
-                                return (
-                                    <div
-                                        className="meal-content-meal-element"
-                                        key={index}
-                                    >
-                                        <p key={index}>{element}</p>
+
+                <div className="meal-container">
+                    {isLoading ? (
+                        <div className="loading-indicator">
+                            <div className="spinner"></div>
+                            <p>급식 정보를 불러오는 중...</p>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="meal-header">
+                                <h2>{mealType === 0 ? "점심" : "저녁"} 메뉴</h2>
+                                {cal && cal[mealType] && (
+                                    <div className="calorie-badge">
+                                        {cal[mealType]}
                                     </div>
-                                );
-                            })
-                        ) : (
-                            <p>오늘은 급식이 없습니다</p>
-                        )}
-                    </div>
-                    <div className="meal-content-cal">
-                        <h2>칼로리</h2>
-                        {cal ? (
-                            <p>{cal[mealType]}</p>
-                        ) : (
-                            <p>오늘은 급식이 없습니다.</p>
-                        )}
-                    </div>
+                                )}
+                            </div>
+
+                            <div className="meal-list">
+                                {meal &&
+                                meal[mealType] &&
+                                meal[mealType].length > 0 ? (
+                                    <ul>
+                                        {meal[mealType].map((item, index) => (
+                                            <li
+                                                key={index}
+                                                style={{ "--index": index }}
+                                            >
+                                                <span className="menu-item">
+                                                    {item}
+                                                </span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <div className="no-meal">
+                                        <i className="bi bi-calendar-x"></i>
+                                        <p>급식이 없는 날입니다</p>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
-        </div>
-    );
-}
-
-function Header() {
-    return (
-        <div className="App-header">
-            <h1>양천고 급식</h1>
-        </div>
-    );
-}
-
-function Footer() {
-    return (
-        <div className="App-footer">
-            <p className="copyright">&copy; 2024 Yangcheon High School</p>
         </div>
     );
 }
