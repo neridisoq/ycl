@@ -23,12 +23,28 @@ function App() {
 
         prefersDark.addEventListener("change", mediaQueryListener);
 
+        // Update HTML class for background color when scrolling
+        if (prefersDark.matches) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
         // Clean up listener on component unmount
         return () => {
             prefersDark.removeEventListener("change", mediaQueryListener);
         };
     }, []);
-
+    
+    // Update HTML class when darkMode changes
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [darkMode]);
+    
     function toggleTheme() {
         setDarkMode(!darkMode);
     }
@@ -78,8 +94,9 @@ function App() {
     return (
         <div className={`app ${darkMode ? "dark-theme" : "light-theme"}`}>
             <div className="app-container">
-                <div className="header-actions">
-                    <button className="theme-toggle" onClick={toggleTheme}>
+                <div className="header">
+                    <h1 className="app-title">양천고 급식</h1>
+                    <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle dark mode">
                         {darkMode ? (
                             <i className="bi bi-moon-fill"></i>
                         ) : (
@@ -87,13 +104,13 @@ function App() {
                         )}
                     </button>
                 </div>
-
+                
                 <div className="date-navigator">
                     <div className="current-date">
                         {today && (
                             <>
                                 <span className="date-year">
-                                    {formatDate(today).year}
+                                    {formatDate(today).year}년
                                 </span>
                                 <span className="date-monthday">
                                     {formatDate(today).month}월{" "}

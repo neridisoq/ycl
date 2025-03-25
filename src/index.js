@@ -4,7 +4,7 @@ const axios = require("axios");
 const path = require("path");
 const app = express();
 dotenv.config();
-const port = 5000;
+const port = 3000;
 const APIKEY = process.env.APIKEY;
 
 const ATPT_OFCDC_SC_CODE = "B10";

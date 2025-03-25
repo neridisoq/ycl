@@ -50,7 +50,8 @@
     --transition-speed: 0.25s;
 }
 
-.app.dark-theme {
+/* Dark Theme Variables */
+.dark-theme {
     --bg-primary: #000000;
     --bg-secondary: #1c1c1e;
     --bg-tertiary: #2c2c2e;
@@ -58,19 +59,14 @@
     --text-secondary: #aeaeb2;
     --text-tertiary: #8e8e93;
     --accent: #0a84ff;
-    --accent-light: rgba(
-        10,
-        132,
-        255,
-        0.2
-    ); /* Increased opacity for better visibility */
+    --accent-light: rgba(10, 132, 255, 0.2);
     --accent-medium: rgba(10, 132, 255, 0.4);
-    --divider: rgba(110, 110, 115, 0.25); /* Increased visibility */
+    --divider: rgba(110, 110, 115, 0.25);
     --shadow: rgba(0, 0, 0, 0.4);
     --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     --card-hover-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     --segment-bg: rgba(120, 120, 128, 0.3);
-    --inactive: #636366; /* Brighter inactive color */
+    --inactive: #636366;
     --inactive-bg: rgba(120, 120, 128, 0.2);
     --toggle-bg: rgba(10, 132, 255, 0.25);
     --toggle-icon: #0a84ff;
@@ -82,6 +78,14 @@
     box-sizing: border-box;
 }
 
+html {
+    background-color: var(--bg-primary);
+}
+
+html.dark {
+    background-color: #000000;
+}
+
 body {
     font-family: var(--font-family);
     -webkit-font-smoothing: antialiased;
@@ -89,6 +93,7 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background-color: var(--bg-primary);
 }
 
 .app {
@@ -105,16 +110,32 @@ body {
 .app-container {
     width: 100%;
     max-width: 800px;
-    padding: 28px 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 24px;
+    gap: 20px;
 }
 
-.header-actions {
+.header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    width: 100%;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.app-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .theme-toggle {
@@ -131,7 +152,8 @@ body {
     justify-content: center;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 2px 10px var(--shadow);
-    position: relative;
+    position: absolute;
+    right: 0;
     overflow: hidden;
 }
 
@@ -173,13 +195,13 @@ body {
     transform: rotate(30deg) scale(1.1);
 }
 
-.app.dark-theme .theme-toggle {
-    background-color: #2c2c2e; /* Slightly lighter than background for better visibility */
-    color: #5856d6; /* Purple for moon icon in dark mode */
+.dark-theme .theme-toggle {
+    background-color: #2c2c2e;
+    color: #5856d6;
 }
 
-.app.light-theme .theme-toggle {
-    color: #ffcc33; /* Yellow for sun icon in light mode */
+.light-theme .theme-toggle {
+    color: #ffcc33;
 }
 
 .date-navigator {
@@ -582,75 +604,44 @@ body {
 }
 
 /* Dark mode specific enhancements */
-.app.dark-theme .meal-container {
+.dark-theme .meal-container {
     background-color: #1c1c1e;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.app.dark-theme .meal-header h2::before {
+.dark-theme .meal-header h2::before {
     box-shadow: 0 0 8px var(--accent);
 }
 
-.app.dark-theme .calorie-badge {
+.dark-theme .calorie-badge {
     background-color: rgba(10, 132, 255, 0.25);
     box-shadow: 0 0 10px rgba(10, 132, 255, 0.2);
 }
 
-.app.dark-theme .date-actions {
+.dark-theme .date-actions {
     background-color: #2c2c2e;
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.app.dark-theme .segment.active::before {
+.dark-theme .segment.active::before {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.app.dark-theme .spinner {
+.dark-theme .spinner {
     border: 3px solid rgba(10, 132, 255, 0.2);
     border-top: 3px solid var(--accent);
 }
 
 /* Add glow to active elements in dark mode */
-.app.dark-theme .icon-button:hover,
-.app.dark-theme .today-button.active {
+.dark-theme .icon-button:hover,
+.dark-theme .today-button.active {
     box-shadow: 0 0 12px rgba(10, 132, 255, 0.4);
 }
 
-/* Toggle animation for light/dark modes */
-@keyframes sunRise {
-    0% {
-        transform: rotate(-120deg) scale(0.6);
-        opacity: 0;
-    }
-    100% {
-        transform: rotate(0) scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes moonRise {
-    0% {
-        transform: rotate(120deg) scale(0.6);
-        opacity: 0;
-    }
-    100% {
-        transform: rotate(0) scale(1);
-        opacity: 1;
-    }
-}
-
-.app.dark-theme .theme-toggle i {
-    animation: moonRise 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-.app.light-theme .theme-toggle i {
-    animation: sunRise 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
 /* Enhanced dark mode for meal list items */
-.app.dark-theme .meal-list li:hover {
+.dark-theme .meal-list li:hover {
     background-color: rgba(10, 132, 255, 0.15);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
@@ -727,9 +718,9 @@ body {
     transition: background-color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.app.dark-theme .meal-container,
-.app.dark-theme .date-actions,
-.app.dark-theme .ios-segmented-control {
+.dark-theme .meal-container,
+.dark-theme .date-actions,
+.dark-theme .ios-segmented-control {
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
