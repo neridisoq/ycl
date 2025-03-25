@@ -56,35 +56,35 @@ app.get("/meal", async (req, res) => {
         let lunch_CAL_INFO = mealServiceDietInfo[1]?.row[0]?.CAL_INFO;
         let dinner_CAL_INFO = mealServiceDietInfo[1]?.row[1]?.CAL_INFO;
 
-        // Modified regex to catch all patterns after a slash
-        const slashRegex = /\/[^<]+/g;
+        const regex =
+            /\([^()]+\)|\/자율|\(완\)|\(선\)|\(교\)|\(주\)|\(해당없음\)|\/양천석식|\(양천\)/g;
 
-        // Process lunch meal data
+        // TODO: later, we need to remove ?. and replace with something beutiful
+
         const lunchMealDataString = lunch_DDISH_NM
-            ?.replace(slashRegex, "")
-            ?.replace(/\([^()]+\)/g, "");
+            ?.replace(/\([^()]+\)|/, "")
+            ?.replace(regex, "");
 
         let lunchMealData = lunchMealDataString
             ?.split("<br/>")
             ?.map((element) => element.trim());
 
-        // Process dinner meal data
         const dinnerMealDataString = dinner_DDISH_NM
-            ?.replace(slashRegex, "")
-            ?.replace(/\([^()]+\)/g, "");
+            ?.replace(/\([^()]+\)|/, "")
+            ?.replace(regex, "");
 
         let dinnerMealData = dinnerMealDataString
             ?.split("<br/>")
             ?.map((element) => element.trim());
 
         if (!lunchMealData) {
-            lunchMealData = ["오늘은 점심이 없습니다."];
-            lunch_CAL_INFO = "오늘은 점심이 없습니다.";
+            lunchMealData = ["오늘은 중식이 없습니다."];
+            dinner_CAL_INFO = "오늘은 중식이 없습니다.";
         }
 
         if (!dinnerMealData) {
-            dinnerMealData = ["오늘은 저녁이 없습니다."];
-            dinner_CAL_INFO = "오늘은 저녁이 없습니다.";
+            dinnerMealData = ["오늘은 석식이 없습니다."];
+            dinner_CAL_INFO = "오늘은 석식이 없습니다.";
         }
 
         res.send({
