@@ -111,6 +111,7 @@ body {
     width: 100%;
     max-width: 800px;
     padding: 20px;
+    padding-bottom: 40px; /* Added extra bottom padding */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -573,6 +574,7 @@ body {
 @media (max-width: 480px) {
     .app-container {
         padding: 20px 16px;
+        padding-bottom: 50px; /* Extra padding on mobile */
         gap: 20px;
     }
 
